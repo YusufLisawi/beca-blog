@@ -10,7 +10,6 @@ public interface PostDAO {
     public List<Post> listPosts();
     public List<Post> getPostByKeyword(String keyword);
     public void removePost(int id);
-
     public Post getPostById(int id);
     public List<Post> listPostsByUser(int id);
 }

@@ -54,7 +54,7 @@ public class UserDAOImpl implements UserDAO {
         session.close();
     }
 
-    public User getUserByName(String username) {
+    public User getUserByUsername(String username) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Query query = session.createQuery("from User where username = :username");

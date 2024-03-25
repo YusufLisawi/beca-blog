@@ -20,8 +20,6 @@ public class Post implements Serializable {
     @JoinColumn(name = "user_id")
     private User user;
 
-
-
     public int getId() {
         return id;
     }

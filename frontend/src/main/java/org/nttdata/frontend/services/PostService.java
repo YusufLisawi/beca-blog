@@ -1,0 +1,54 @@
+package org.nttdata.frontend.services;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.nttdata.frontend.models.Post;
+
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.util.List;
+
+public class PostService {
+    private final String restResourceUrl = "http://localhost:8080/backend_war/api/posts/";
+    private final ObjectMapper mapper = new ObjectMapper();
+    private HttpClient client;
+
+    public PostService() {
+        client = HttpClient.newHttpClient();
+    }
+
+    public List<Post> getPosts() {
+        try {
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(new URI(restResourceUrl))
+                    .GET()
+                    .build();
+            return fetchPosts(request);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public List<Post> getPostsByUser(int id) {
+        try {
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(new URI(restResourceUrl + "user/" + id))
+                    .GET()
+                    .build();
+            return fetchPosts(request);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private List<Post> fetchPosts(HttpRequest request) throws java.io.IOException, InterruptedException {
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        String result = response.body();
+        List<Post> posts = mapper.readValue(result, new TypeReference<List<Post>>(){});
+        return posts;
+    }
+}
