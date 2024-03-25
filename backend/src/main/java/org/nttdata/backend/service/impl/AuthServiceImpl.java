@@ -16,9 +16,9 @@ public class AuthServiceImpl implements AuthService {
             return new Response("Username is already taken", false);
         }
 
-        String hashedPassword = BCrypt.hashpw(u.getPassword(), BCrypt.gensalt());
-        User newUser = new User(u.getUsername(), hashedPassword);
-        userDAO.save(newUser);
+//        String hashedPassword = BCrypt.hashpw(u.getPassword(), BCrypt.gensalt());
+//        User newUser = new User(u.getUsername(), hashedPassword);
+//        userDAO.save(newUser);
 
         return new Response("Registration successful", true);
     }

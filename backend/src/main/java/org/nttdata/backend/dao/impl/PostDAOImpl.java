@@ -36,7 +36,7 @@ public class PostDAOImpl implements PostDAO {
         return posts;
     }
 
-  public List<Post> getPostByKeyword(String keyword) {
+  public List<Post> getPostsByKeyword(String keyword) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Query query = session.createQuery("from Post where title like '%" + keyword + "%' or content like '%" + keyword + "%'");

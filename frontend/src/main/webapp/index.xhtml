@@ -1,4 +1,3 @@
-<!-- index.xhtml -->
 <ui:composition template="/WEB-INF/template.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
@@ -10,9 +9,11 @@
     </ui:define>
     <ui:define name="content">
         <div class="container mx-auto px-4">
-            <div class="flex justify-center">
-                <p:inputText id="search" styleClass="w-1/2 p-2 my-4 border rounded"/>
-                <p:watermark for="search" value="Search..."/>
+            <div class="flex justify-center w-full">
+                <div class="ui-input-icon-left">
+                    <i class="pi pi-fw pi-search" />
+                    <p:inputText placeholder="Search..." styleClass="p-2 my-4 border rounded"/>
+                </div>
             </div>
             <div class="flex justify-between mb-3">
                 <h1 class="text-4xl font-bold mb-4">Blog Posts</h1>
@@ -21,16 +22,21 @@
             <div class="grid grid-cols-3 gap-4">
                 <ui:fragment rendered="#{not empty postBean.posts}">
                     <ui:repeat value="#{postBean.posts}" var="post">
-                        <p:panel styleClass="mb-4 p-4 border rounded shadow">
+                        <p:card style="width: 25em">
                             <f:facet name="header">
-                                <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-                                    <h:outputText value="#{post.title}"/>
-                                    <p:commandButton type="button" value="Read More" styleClass="ui-button-secondary"/>
-                                </div>
+                                <img src="#{post.image}"/>
                             </f:facet>
-                            <h:outputText value="#{post.content}" styleClass="text-base"
-                                          style="word-wrap: break-word;"/>
-                        </p:panel>
+                            <f:facet name="title">
+                                #{post.title}
+                            </f:facet>
+                            <p style="word-wrap: break-word;">#{postBean.truncateContent(post.content)}</p>
+
+                            <f:facet name="footer">
+                                <p:link outcome="post" value="Read More">
+                                    <f:param name="id" value="#{post.id}"/>
+                                </p:link>
+                            </f:facet>
+                        </p:card>
                     </ui:repeat>
                 </ui:fragment>
                 <ui:fragment rendered="#{empty postBean.posts}">
