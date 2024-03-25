@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:p="http://primefaces.org/ui">
+<f:view contentType="text/html">
+	<h:head>
+		<title>Blog</title>
+		<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"></link>
+	</h:head>
+	<h:body>
+		<nav class="flex items-center justify-between p-6 bg-blue-500">
+			<div class="text-white text-2xl">BECA BLOG</div>
+			<div>
+				<a href="#" class="text-white mr-4">Login</a>
+				<a href="#" class="text-white">Register</a>
+				<h:link value="Profile" outcome="index" styleClass="text-white" rendered="#{false}" />
+
+			</div>
+		</nav>
+		<div class="container mx-auto px-4">
+			<div class="flex justify-center">
+				<p:inputText id="search" styleClass="w-1/2 p-2 my-4 border rounded"/>
+				<p:watermark for="search" value="Search..." />
+			</div>
+			<div class="flex justify-between mb-3">
+				<h1 class="text-4xl font-bold mb-4">Blog Posts</h1>
+				<p:commandButton value="Add Post" styleClass="rounded-xl ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only mb-4 px-4 py-2 bg-blue-500 text-white"/>
+			</div>
+			<div class="grid grid-cols-3 gap-4">
+				<p:panel header="Post Title 1" styleClass="mb-4 p-4 border rounded shadow">
+					<h:outputText value="This is the content of the first blog post." styleClass="text-base"/>
+				</p:panel>
+				<p:panel header="Post Title 2" styleClass="mb-4 p-4 border rounded shadow">
+					<h:outputText value="This is the content of the second blog post." styleClass="text-base"/>
+				</p:panel>
+				<p:panel header="Post Title 3" styleClass="mb-4 p-4 border rounded shadow">
+					<h:outputText value="This is the content of the third blog post." styleClass="text-base"/>
+				</p:panel>
+			</div>
+			<!-- Add more blog posts here -->
+		</div>
+	</h:body>
+</f:view>
+</html>
