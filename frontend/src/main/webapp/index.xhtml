@@ -3,7 +3,8 @@
 				xmlns="http://www.w3.org/1999/xhtml"
 				xmlns:ui="http://java.sun.com/jsf/facelets"
 				xmlns:h="http://java.sun.com/jsf/html"
-				xmlns:p="http://primefaces.org/ui">
+				xmlns:p="http://primefaces.org/ui"
+				xmlns:f="http://java.sun.com/jsf/core">
 	<ui:define name="title">
 		Blog
 	</ui:define>
@@ -15,17 +16,35 @@
 			</div>
 			<div class="flex justify-between mb-3">
 				<h1 class="text-4xl font-bold mb-4">Blog Posts</h1>
-				<p:commandButton value="Add Post" styleClass="rounded-xl ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only mb-4 px-4 py-2 bg-blue-500 text-white"/>
+				<p:commandButton value="Add Post" icon="pi pi-plus" styleClass="ui-button-primary"/>
 			</div>
 			<div class="grid grid-cols-3 gap-4">
-				<p:panel header="Post Title 1" styleClass="mb-4 p-4 border rounded shadow">
+				<p:panel styleClass="mb-4 p-4 border rounded shadow">
+					<f:facet name="header">
+						<div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+							<h:outputText value="Post Title 1"/>
+							<p:commandButton type="button" value="View More" styleClass="ui-button-secondary"/>
+						</div>
+					</f:facet>
 					<h:outputText value="This is the content of the first blog post." styleClass="text-base"/>
 				</p:panel>
-				<p:panel header="Post Title 2" styleClass="mb-4 p-4 border rounded shadow">
-					<h:outputText value="This is the content of the second blog post." styleClass="text-base"/>
+				<p:panel styleClass="mb-4 p-4 border rounded shadow">
+					<f:facet name="header">
+						<div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+							<h:outputText value="Post Title 1"/>
+							<p:commandButton type="button" value="View More" styleClass="ui-button-secondary"/>
+						</div>
+					</f:facet>
+					<h:outputText value="This is the content of the first blog post." styleClass="text-base"/>
 				</p:panel>
-				<p:panel header="Post Title 3" styleClass="mb-4 p-4 border rounded shadow">
-					<h:outputText value="This is the content of the third blog post." styleClass="text-base"/>
+				<p:panel styleClass="mb-4 p-4 border rounded shadow">
+					<f:facet name="header">
+						<div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+							<h:outputText value="Post Title 1"/>
+							<p:commandButton type="button" value="View More" styleClass="ui-button-secondary"/>
+						</div>
+					</f:facet>
+					<h:outputText value="This is the content of the first blog post." styleClass="text-base"/>
 				</p:panel>
 			</div>
 		</div>

@@ -3,12 +3,12 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:p="http://primefaces.org/ui">
-        <nav class="flex items-center justify-between p-4 bg-blue-500">
+        <nav class="flex items-center justify-between p-4 bg-gray-700">
             <h:link value="BECA BLOG" outcome="index" styleClass="text-white text-2xl"/>
             <div>
-                <h:link value="My Profile: #{userBean.loggedUser.username}" outcome="profile" styleClass="text-white hover:font-bold transition" rendered="#{userBean.loggedUser != null ? true : false}" />
-                <h:link value="Login" outcome="login" styleClass="text-white mr-4 hover:font-bold transition" rendered="#{userBean.loggedUser != null ? false : true}" />
-                <h:link value="Register" outcome="register" styleClass="text-white hover:font-bold transition" rendered="#{userBean.loggedUser != null ? false : true}" />
+                <h:link value="My Profile: #{userBean.loggedUser.username}" outcome="profile" styleClass="text-white hover:text-blue-300 transition" rendered="#{userBean.loggedUser != null}" />
+                <h:link value="Login" outcome="login" styleClass="text-white mr-4 hover:text-blue-400 transition" rendered="#{userBean.loggedUser == null}" />
+                <h:link value="Register" outcome="register" styleClass="text-white hover:text-blue-400 transition" rendered="#{userBean.loggedUser == null}" />
             </div>
         </nav>
 </ui:composition>
