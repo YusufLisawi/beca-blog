@@ -4,6 +4,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 public class Response {
+    public Response( String message, boolean status) {
+        this.status = status;
+        this.message = message;
+    }
+
     private boolean status;
     private String message;
     public boolean isStatus() {
