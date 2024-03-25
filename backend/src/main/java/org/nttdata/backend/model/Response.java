@@ -9,6 +9,9 @@ public class Response {
         this.message = message;
     }
 
+    public Response() {
+    }
+
     private boolean status;
     private String message;
     public boolean isStatus() {
