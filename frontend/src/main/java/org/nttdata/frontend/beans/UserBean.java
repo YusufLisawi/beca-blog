@@ -12,7 +12,7 @@ import java.io.Serializable;
 public class UserBean implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private User loggedUser = new User();
+    private User loggedUser = null;
 
     @PostConstruct
     public void init() {}

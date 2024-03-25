@@ -1,0 +1,16 @@
+<!-- template.xhtml -->
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title><ui:insert name="title">BLOG </ui:insert></title>
+        <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"></link>
+    </h:head>
+    <h:body>
+        <ui:include src="/WEB-INF/navbar.xhtml" />
+        <ui:insert name="content">
+            <!-- This is where the content of each page will be inserted -->
+        </ui:insert>
+    </h:body>
+</ui:composition>
