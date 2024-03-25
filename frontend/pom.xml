@@ -9,6 +9,11 @@
     <description>Blog App</description>
 
     <dependencies>
+<!--        <dependency>-->
+<!--            <groupId>com.google.code.gson</groupId>-->
+<!--            <artifactId>gson</artifactId>-->
+<!--            <version>2.10.1</version>-->
+<!--        </dependency>-->
         <!-- https://mvnrepository.com/artifact/com.sun.faces/jsf-api -->
         <dependency>
             <groupId>com.sun.faces</groupId>

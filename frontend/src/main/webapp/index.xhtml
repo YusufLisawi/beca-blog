@@ -1,52 +1,42 @@
 <!-- index.xhtml -->
 <ui:composition template="/WEB-INF/template.xhtml"
-				xmlns="http://www.w3.org/1999/xhtml"
-				xmlns:ui="http://java.sun.com/jsf/facelets"
-				xmlns:h="http://java.sun.com/jsf/html"
-				xmlns:p="http://primefaces.org/ui"
-				xmlns:f="http://java.sun.com/jsf/core">
-	<ui:define name="title">
-		Blog
-	</ui:define>
-	<ui:define name="content">
-		<div class="container mx-auto px-4">
-			<div class="flex justify-center">
-				<p:inputText id="search" styleClass="w-1/2 p-2 my-4 border rounded"/>
-				<p:watermark for="search" value="Search..." />
-			</div>
-			<div class="flex justify-between mb-3">
-				<h1 class="text-4xl font-bold mb-4">Blog Posts</h1>
-				<p:commandButton value="Add Post" icon="pi pi-plus" styleClass="ui-button-primary"/>
-			</div>
-			<div class="grid grid-cols-3 gap-4">
-				<p:panel styleClass="mb-4 p-4 border rounded shadow">
-					<f:facet name="header">
-						<div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-							<h:outputText value="Post Title 1"/>
-							<p:commandButton type="button" value="View More" styleClass="ui-button-secondary"/>
-						</div>
-					</f:facet>
-					<h:outputText value="This is the content of the first blog post." styleClass="text-base"/>
-				</p:panel>
-				<p:panel styleClass="mb-4 p-4 border rounded shadow">
-					<f:facet name="header">
-						<div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-							<h:outputText value="Post Title 1"/>
-							<p:commandButton type="button" value="View More" styleClass="ui-button-secondary"/>
-						</div>
-					</f:facet>
-					<h:outputText value="This is the content of the first blog post." styleClass="text-base"/>
-				</p:panel>
-				<p:panel styleClass="mb-4 p-4 border rounded shadow">
-					<f:facet name="header">
-						<div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-							<h:outputText value="Post Title 1"/>
-							<p:commandButton type="button" value="View More" styleClass="ui-button-secondary"/>
-						</div>
-					</f:facet>
-					<h:outputText value="This is the content of the first blog post." styleClass="text-base"/>
-				</p:panel>
-			</div>
-		</div>
-	</ui:define>
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
+    <ui:define name="title">
+        Blog
+    </ui:define>
+    <ui:define name="content">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-center">
+                <p:inputText id="search" styleClass="w-1/2 p-2 my-4 border rounded"/>
+                <p:watermark for="search" value="Search..."/>
+            </div>
+            <div class="flex justify-between mb-3">
+                <h1 class="text-4xl font-bold mb-4">Blog Posts</h1>
+                <p:commandButton value="Add Post" icon="pi pi-plus" styleClass="ui-button-primary"/>
+            </div>
+            <div class="grid grid-cols-3 gap-4">
+                <ui:fragment rendered="#{not empty postBean.posts}">
+                    <ui:repeat value="#{postBean.posts}" var="post">
+                        <p:panel styleClass="mb-4 p-4 border rounded shadow">
+                            <f:facet name="header">
+                                <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                                    <h:outputText value="#{post.title}"/>
+                                    <p:commandButton type="button" value="Read More" styleClass="ui-button-secondary"/>
+                                </div>
+                            </f:facet>
+                            <h:outputText value="#{post.content}" styleClass="text-base"
+                                          style="word-wrap: break-word;"/>
+                        </p:panel>
+                    </ui:repeat>
+                </ui:fragment>
+                <ui:fragment rendered="#{empty postBean.posts}">
+                    <h2 class="text-2xl">No posts found</h2>
+                </ui:fragment>
+            </div>
+        </div>
+    </ui:define>
 </ui:composition>

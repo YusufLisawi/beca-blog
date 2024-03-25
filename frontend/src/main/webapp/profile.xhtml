@@ -19,20 +19,27 @@
                 <p:commandButton value="Add Post" icon="pi pi-plus" styleClass="ui-button-primary"/>
             </div>
             <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
-                <p:panel styleClass="mb-4 p-4 border rounded shadow">
-                    <f:facet name="header">
-                        <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-                            <h:outputText value="Post Title 1"/>
-                            <div class="flex gap-2">
-                                <p:commandButton type="button" title="Modify" icon="pi pi-pencil"
-                                                 styleClass="ui-button-secondary"/>
-                                <p:commandButton type="button" title="Delete" icon="pi pi-trash"
-                                                 styleClass="ui-button-danger"/>
-                            </div>
-                        </div>
-                    </f:facet>
-                    <h:outputText value="This is the content of the first blog post." styleClass="text-base"/>
-                </p:panel>
+                <ui:fragment rendered="#{not empty userBean.posts}">
+                    <ui:repeat value="#{userBean.posts}" var="post">
+                        <p:panel styleClass="mb-4 p-4 border rounded shadow">
+                            <f:facet name="header">
+                                <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                                    <h:outputText value="#{post.title}"/>
+                                    <div class="flex gap-2">
+                                        <p:commandButton type="button" title="Modify" icon="pi pi-pencil"
+                                                         styleClass="ui-button-secondary"/>
+                                        <p:commandButton type="button" title="Delete" icon="pi pi-trash"
+                                                         styleClass="ui-button-danger"/>
+                                    </div>
+                                </div>
+                            </f:facet>
+                            <h:outputText value="#{post.content}" styleClass="text-base" style="word-wrap: break-word;"/>
+                        </p:panel>
+                    </ui:repeat>
+                </ui:fragment>
+                <ui:fragment rendered="#{empty userBean.posts}">
+                    <h2 class="text-2xl">You don't have any posts</h2>
+                </ui:fragment>
             </div>
         </div>
     </ui:define>
