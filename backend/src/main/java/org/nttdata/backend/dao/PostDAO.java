@@ -8,7 +8,7 @@ public interface PostDAO {
     public void addPost(Post post);
     public void updatePost(Post post);
     public List<Post> listPosts();
-    public List<Post> getPostByKeyword(String keyword);
+    public List<Post> getPostsByKeyword(String keyword);
     public void removePost(int id);
     public Post getPostById(int id);
     public List<Post> listPostsByUser(int id);

@@ -3,6 +3,7 @@ package org.nttdata.frontend.services;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.nttdata.frontend.models.Post;
+import org.nttdata.frontend.models.Response;
 
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -32,6 +33,20 @@ public class PostService {
         return null;
     }
 
+    public Post getPostById(int id) {
+        try {
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(new URI(restResourceUrl + id))
+                    .GET()
+                    .build();
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            return mapper.readValue(response.body(), Post.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public List<Post> getPostsByUser(int id) {
         try {
             HttpRequest request = HttpRequest.newBuilder()
@@ -45,10 +60,28 @@ public class PostService {
         return null;
     }
 
+    public Response deletePost(int id) {
+        try {
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(new URI(restResourceUrl + id))
+                    .DELETE()
+                    .build();
+            return fetchResponse(request);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     private List<Post> fetchPosts(HttpRequest request) throws java.io.IOException, InterruptedException {
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         String result = response.body();
         List<Post> posts = mapper.readValue(result, new TypeReference<List<Post>>(){});
         return posts;
+    }
+    private Response fetchResponse(HttpRequest request) throws java.io.IOException, InterruptedException {
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        String result = response.body();
+        return mapper.readValue(result, Response.class);
     }
 }

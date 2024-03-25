@@ -4,18 +4,25 @@ import org.nttdata.frontend.models.Post;
 import org.nttdata.frontend.services.PostService;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @ManagedBean(name = "postBean", eager = true)
-@SessionScoped
 public class PostBean implements Serializable {
     private static final long serialVersionUID = 1L;
     private static final PostService postService = new PostService();
     private List<Post> posts = new ArrayList<>();
+    private Post post;
+
+    @ManagedProperty(value = "#{param.id}")
+    private String id;
 
     @PostConstruct
     public void init() {
@@ -24,5 +31,31 @@ public class PostBean implements Serializable {
     public List<Post> getPosts() {
         posts = postService.getPosts();
         return posts;
+    }
+
+    public Post getPost() {
+        if (id == null) {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "No post specified", "Unable to show post");
+            FacesContext.getCurrentInstance().addMessage(null, message);
+            return null;
+        }
+        post = postService.getPostById(Integer.parseInt(id));
+        return post;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String truncateContent(String content) {
+        if (content.length() > 40) {
+            return content.substring(0, 40) + "...";
+        } else {
+            return content;
+        }
     }
 }
