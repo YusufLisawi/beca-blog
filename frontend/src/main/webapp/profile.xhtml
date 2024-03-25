@@ -8,13 +8,10 @@
 		<h:outputText value="Profiles"/>
 	</ui:define>
 	<ui:define name="content">
-		<h1>
-			<h:outputText value="${userBean.username}"/>
-		</h1>
 		<div class="container mx-auto px-4">
 			<div class="flex justify-center">
 				<p:inputText id="search" styleClass="w-1/2 p-2 my-4 border rounded"/>
-				<p:watermark for="search" value="Search..." />
+				<p:watermark for="search" value="Search my posts..." />
 			</div>
 			<div class="flex justify-between mb-3">
 				<h1 class="text-4xl font-bold mb-4">My Posts</h1>
