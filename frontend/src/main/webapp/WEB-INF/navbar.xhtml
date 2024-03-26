@@ -8,11 +8,15 @@
                 <div class="flex items-center gap-6">
                     <h:link value="Beca Blog" outcome="index" styleClass="text-white text-2xl font-bold"/>
                     <h:link value="Home" outcome="index" styleClass="text-white hover:text-blue-400 transition"/>
+                    <h:link value="My Posts" outcome="my-posts" styleClass="text-white hover:text-blue-300 transition" rendered="#{userBean.loggedUser != null}" />
                 </div>
-                <div>
-                    <h:link value="My Profile: #{userBean.loggedUser.username}" outcome="profile" styleClass="text-white hover:text-blue-300 transition" rendered="#{userBean.loggedUser != null}" />
-                    <h:link value="Login" outcome="login" styleClass="text-white mr-4 hover:text-blue-400 transition" rendered="#{userBean.loggedUser == null}" />
-                    <h:link value="Register" outcome="register" styleClass="text-white hover:text-blue-400 transition" rendered="#{userBean.loggedUser == null}" />
+                <div class="flex items-center">
+                    <h:form styleClass="mb-0">
+                        <h:outputText value="#{userBean.loggedUser.username}" styleClass="text-white mr-4" rendered="#{userBean.loggedUser != null}" />
+                        <p:commandButton action="#{authBean.logout}" value="Logout" icon="pi pi-fw pi-sign-out" styleClass="ui-button-info" rendered="#{userBean.loggedUser != null}"/>
+                        <h:link value="Login" outcome="login" styleClass="text-white mr-4 hover:text-blue-400 transition" rendered="#{userBean.loggedUser == null}" />
+                        <h:link value="Register" outcome="register" styleClass="text-white hover:text-blue-400 transition" rendered="#{userBean.loggedUser == null}" />
+                    </h:form>
                 </div>
             </div>
         </nav>

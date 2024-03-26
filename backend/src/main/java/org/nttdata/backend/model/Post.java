@@ -13,6 +13,8 @@ public class Post implements Serializable {
     private int id;
 
     private String title;
+
+    @Column(columnDefinition = "TEXT")
     private String content;
     private String image;
 

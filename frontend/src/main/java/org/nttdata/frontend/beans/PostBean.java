@@ -23,13 +23,17 @@ public class PostBean implements Serializable {
 
     @ManagedProperty(value = "#{param.id}")
     private String id;
+    private String keyword;
 
     @PostConstruct
-    public void init() {
-    }
+    public void init() {}
 
     public List<Post> getPosts() {
-        posts = postService.getPosts();
+        if (keyword != null && !keyword.isEmpty()) {
+            posts = postService.getPostsByKeyword(keyword);
+        } else {
+            posts = postService.getPosts();
+        }
         return posts;
     }
 
@@ -40,6 +44,10 @@ public class PostBean implements Serializable {
             return null;
         }
         post = postService.getPostById(Integer.parseInt(id));
+        if (post == null) {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "No post found", "Unable to show post");
+            FacesContext.getCurrentInstance().addMessage(null, message);
+        }
         return post;
     }
 
@@ -49,6 +57,14 @@ public class PostBean implements Serializable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getKeyword() {
+        return keyword;
+    }
+
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
     }
 
     public String truncateContent(String content) {

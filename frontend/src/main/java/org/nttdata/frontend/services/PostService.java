@@ -73,6 +73,19 @@ public class PostService {
         return null;
     }
 
+    public List<Post> getPostsByKeyword(String keyword) {
+        try {
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(new URI(restResourceUrl + "search?q=" + keyword))
+                    .GET()
+                    .build();
+            return fetchPosts(request);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     private List<Post> fetchPosts(HttpRequest request) throws java.io.IOException, InterruptedException {
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         String result = response.body();

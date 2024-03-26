@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+<f:view contentType="text/html">
+    <h:head>
+        <title>Login</title>
+        <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"></link>
+    </h:head>
+    <h:body>
+        <p:growl id="message" showDetail="true"/>
+        <div class="min-h-screen flex items-center justify-center bg-gray-50  px-4 sm:px-6 lg:px-8">
+            <div class="max-w-md w-full space-y-8">
+                <div>
+                    <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+                        Create an account
+                    </h2>
+                </div>
+                <h:form styleClass="mt-8 space-y-6">
+                    <div class="rounded-md shadow-sm -space-y-px mb-4">
+                        <div>
+                            <p:inputText id="username" value="#{authBean.user.username}"
+                                         styleClass="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm mb-4"
+                                         placeholder="Username"/>
+                        </div>
+                        <div>
+                            <p:password id="password" value="#{authBean.user.password}"
+                                        styleClass="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm mb-4"
+                                        placeholder="Password"/>
+                        </div>
+                        <div>
+                            <p:password id="confirm-password" value="#{authBean.confirmPassword}"
+                                        styleClass="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm mb-4"
+                                        placeholder="Confirm Password"/>
+                        </div>
+                    </div>
+                    <div>
+<!--                        <p:captcha label="Captcha"/>-->
+                        <p:commandButton value="Sign up" action="#{authBean.register}" update="message"
+                                         styleClass="ui-button-info w-full"/>
+                    </div>
+                </h:form>
+            </div>
+        </div>
+    </h:body>
+</f:view>
+</html>

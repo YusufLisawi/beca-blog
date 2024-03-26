@@ -8,12 +8,17 @@ public class Response {
         this.status = status;
         this.message = message;
     }
+    public Response( String message, boolean status, User user) {
+        this.status = status;
+        this.message = message;
+        this.user = user;
+    }
     public Response() {
     }
 
     private boolean status;
     private String message;
-
+    private User user;
 
     public boolean isStatus() {
         return status;
@@ -26,5 +31,8 @@ public class Response {
     }
     public void setMessage(String message) {
         this.message = message;
+    }
+    public User getUser() {
+        return user;
     }
 }

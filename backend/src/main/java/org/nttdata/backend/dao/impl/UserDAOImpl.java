@@ -2,7 +2,6 @@ package org.nttdata.backend.dao.impl;
 
 import org.hibernate.query.Query;
 import org.nttdata.backend.dao.UserDAO;
-import org.nttdata.backend.model.Post;
 import org.nttdata.backend.model.User;
 import org.nttdata.backend.util.HibernateUtil;
 import org.hibernate.Session;
