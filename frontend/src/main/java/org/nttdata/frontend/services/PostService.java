@@ -20,6 +20,23 @@ public class PostService {
         client = HttpClient.newHttpClient();
     }
 
+
+
+
+    public Response addPost(Post post) {
+        try {
+            String json = mapper.writeValueAsString(post);
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(new URI(restResourceUrl + "add"))
+                    .header("Content-Type", "application/json")
+                    .POST(HttpRequest.BodyPublishers.ofString(json))
+                    .build();
+            return fetchResponse(request);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
     public List<Post> getPosts() {
         try {
             HttpRequest request = HttpRequest.newBuilder()

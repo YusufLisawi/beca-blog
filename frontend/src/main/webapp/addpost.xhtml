@@ -1,0 +1,33 @@
+<ui:composition template="/WEB-INF/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
+    <ui:define name="title">
+        Blog | Create Post
+    </ui:define>
+    <ui:define name="content">
+        <div class="container mx-auto px-4 py-8">
+            <h1 class="text-3xl font-extrabold text-gray-900">Create Post</h1>
+            <h:form styleClass="mt-8 space-y-6">
+                <div class="rounded-md shadow-sm -space-y-px">
+                    <div>
+                        <p:outputLabel for="title" value="Title" styleClass="font-bold text-xl"/>
+                        <p:inputText id="title" value="#{postBean.newPost.title}"
+                                     styleClass="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"/>
+                    </div>
+                    <div>
+                        <p:outputLabel for="content" value="Content" styleClass="font-bold text-xl"/>
+                        <p:inputTextarea id="content" value="#{postBean.newPost.content}"
+                                         styleClass="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"/>
+                    </div>
+                </div>
+                <div>
+                    <p:commandButton value="Create Post" action="#{postBean.addPost}" update="message"
+                                     styleClass="ui-button-info"/>
+                </div>
+            </h:form>
+        </div>
+    </ui:define>
+</ui:composition>
