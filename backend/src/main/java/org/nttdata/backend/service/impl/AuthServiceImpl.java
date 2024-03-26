@@ -52,6 +52,6 @@ public class AuthServiceImpl implements AuthService {
             return new Response("Invalid password", false);
         }
 
-        return new Response("Login successful", true);
+        return new Response("Login successful", true, existingUser);
     }
 }

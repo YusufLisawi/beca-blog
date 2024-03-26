@@ -1,63 +1,115 @@
 package org.nttdata.frontend.beans;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.nttdata.frontend.models.Response;
+import org.nttdata.frontend.models.User;
+
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.io.IOException;
 
-@ManagedBean
+@ManagedBean(name = "authBean", eager = true)
 @SessionScoped
 public class AuthBean {
-    private String username;
-    private String password;
+    private final String restResourceUrl = "http://localhost:8080/backend_war/api/auth/";
+    private User user = new User();
+    private final ObjectMapper mapper = new ObjectMapper();
+    @ManagedProperty(value="#{userBean}")
+    private UserBean userBean;
+    private String confirmPassword;
 
-    // Add getters and setters for username and password
-
-    public String getUsername() {
-        return username;
+    public User getUser() {
+        return user;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public boolean login() {
+    public String register() {
         try {
+            if (!user.getPassword().equals(confirmPassword)) {
+                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Registration Failed", "Passwords do not match");
+                FacesContext.getCurrentInstance().addMessage(null, message);
+                return "register";
+            }
+            String json = mapper.writeValueAsString(user);
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(new URI("http://api.example.com/users?username=" + username))
+                    .uri(new URI(restResourceUrl + "register"))
+                    .header("Content-Type", "application/json")
+                    .POST(HttpRequest.BodyPublishers.ofString(json))
                     .build();
 
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-
-            // Parse the response to get the password
-            String correctPassword = parsePassword(response.body());
-
-            if (password.equals(correctPassword)) {
-                return true;
+            Response res = mapper.readValue(response.body(), Response.class);
+            if (res.isStatus()) {
+                userBean.setLoggedUser(res.getUser());
+                user = new User();
+                return "index?faces-redirect=true";
             } else {
-                return false;
+                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Registration Failed", res.getMessage());
+                FacesContext.getCurrentInstance().addMessage(null, message);
+                return "register";
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
+            return "register?faces-redirect=true";
         }
     }
 
-    private String parsePassword(String responseBody) {
-        // Implement this method to parse the password from the response body
-        // This will depend on the format of the response body
-        return "";
+    public String login() {
+        try {
+            String json = mapper.writeValueAsString(user);
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(new URI(restResourceUrl + "login" ))
+                    .header("Content-Type", "application/json")
+                    .POST(HttpRequest.BodyPublishers.ofString(json))
+                    .build();
+
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            Response res = mapper.readValue(response.body(), Response.class);
+            if (res.isStatus()) {
+                userBean.setLoggedUser(res.getUser());
+                user = new User();
+                return "index?faces-redirect=true";
+            } else {
+                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Login Failed", res.getMessage());
+                FacesContext.getCurrentInstance().addMessage(null, message);
+                return "login";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "login?faces-redirect=true";
+        }
+    }
+
+    public String logout() {
+        userBean.setLoggedUser(null);
+        return "index?faces-redirect=true";
+    }
+
+    public UserBean getUserBean() {
+        return this.userBean;
+    }
+
+    public void setUserBean(UserBean userBean) {
+        this.userBean = userBean;
+    }
+
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
     }
 }
