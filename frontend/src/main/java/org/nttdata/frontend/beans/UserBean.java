@@ -19,7 +19,7 @@ import java.util.List;
 public class UserBean implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private User loggedUser = new User(1, "admin", "admin");
+    private User loggedUser = new User(2, "yusuf", "yusuf");
     private List<Post> posts = new ArrayList<>();
     private final PostService postService = new PostService();
 

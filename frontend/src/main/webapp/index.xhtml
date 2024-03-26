@@ -5,21 +5,26 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://java.sun.com/jsf/core">
     <ui:define name="title">
-        Blog
+        Blog | Home
     </ui:define>
     <ui:define name="content">
         <div class="container mx-auto px-4">
             <div class="flex justify-center w-full">
-                <div class="ui-input-icon-left">
-                    <i class="pi pi-fw pi-search" />
-                    <p:inputText placeholder="Search..." styleClass="p-2 my-4 border rounded"/>
-                </div>
+<!--                <div class="ui-input-icon-left">-->
+<!--                    <i class="pi pi-fw pi-search"/>-->
+                    <h:form id="searchForm">
+                        <p:inputText id="searchInput" placeholder="Search..." styleClass="p-2 my-4 border rounded"
+                                     value="#{postBean.keyword}"/>
+                        <p:commandButton action="#{postBean.getPosts}" icon="pi pi-search" style="padding: 2px" styleClass="ui-button-info"
+                                         ajax="false"/>
+                    </h:form>
+<!--                </div>-->
             </div>
             <div class="flex justify-between mb-3">
                 <h1 class="text-4xl font-bold mb-4">Blog Posts</h1>
-                <p:commandButton value="Add Post" icon="pi pi-plus" styleClass="ui-button-primary"/>
+                <p:commandButton value="Add Post" icon="pi pi-plus" styleClass="ui-button-info"/>
             </div>
-            <div class="grid grid-cols-3 gap-4">
+            <h:panelGroup id="posts" styleClass="grid grid-cols-1 gap-4 sm:grid-cols-3">
                 <ui:fragment rendered="#{not empty postBean.posts}">
                     <ui:repeat value="#{postBean.posts}" var="post">
                         <p:card style="width: 25em">
@@ -28,6 +33,9 @@
                             </f:facet>
                             <f:facet name="title">
                                 #{post.title}
+                            </f:facet>
+                            <f:facet name="subtitle">
+                                By @#{post.user.username}
                             </f:facet>
                             <p style="word-wrap: break-word;">#{postBean.truncateContent(post.content)}</p>
 
@@ -42,7 +50,7 @@
                 <ui:fragment rendered="#{empty postBean.posts}">
                     <h2 class="text-2xl">No posts found</h2>
                 </ui:fragment>
-            </div>
+            </h:panelGroup>
         </div>
     </ui:define>
 </ui:composition>

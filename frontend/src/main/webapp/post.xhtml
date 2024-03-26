@@ -8,16 +8,21 @@
         Post #{postBean.post.id}
     </ui:define>
     <ui:define name="content">
-        <div class="container mx-auto p-8">
-            <p:card style="width: 50em; margin: auto;">
-                <f:facet name="header">
-                    <img src="#{postBean.post.image}" style="width: 100%; height: auto;"/>
-                </f:facet>
-                <f:facet name="title">
-                    #{postBean.post.title}
-                </f:facet>
-                <p style="word-wrap: break-word;">#{postBean.post.content}</p>
-            </p:card>
-        </div>
+        <ui:fragment rendered="#{postBean.post != null}">
+            <div class="container mx-auto p-8">
+                <p:card style="width: 50em; margin: auto;">
+                    <f:facet name="header">
+                        <img src="#{postBean.post.image}" style="width: 100%; height: auto;"/>
+                    </f:facet>
+                    <f:facet name="title">
+                        #{postBean.post.title}
+                    </f:facet>
+                    <f:facet name="subtitle">
+                        By @#{postBean.post.user.username}
+                    </f:facet>
+                    <p style="word-wrap: break-word;">#{postBean.post.content}</p>
+                </p:card>
+            </div>
+        </ui:fragment>
     </ui:define>
 </ui:composition>
