@@ -3,12 +3,20 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:p="http://primefaces.org/ui">
-        <nav class="flex items-center justify-between p-6 bg-blue-500">
-            <div class="text-white text-2xl">BECA BLOG</div>
-            <div>
-                <h:link value="Profile" outcome="index" styleClass="text-white" rendered="#{userBean.loggedUser != null ? true : false}" />
-                <h:link value="Login" outcome="login" styleClass="text-white mr-4" rendered="#{userBean.loggedUser != null ? false : true}" />
-                <h:link value="Register" outcome="register" styleClass="text-white" rendered="#{userBean.loggedUser != null ? false : true}" />
+        <nav class="p-4 bg-gray-700">
+            <div class="container mx-auto px-4 flex items-center justify-between">
+                <div class="flex items-center gap-6">
+                    <h:link value="Beca Blog" outcome="index" styleClass="text-white text-2xl font-bold"/>
+                    <h:link value="Home" outcome="index" styleClass="text-white hover:text-blue-400 transition"/>
+                    <h:link value="My Posts" outcome="my-posts" styleClass="text-white hover:text-blue-300 transition" rendered="#{userBean.loggedUser != null}" />
+                </div>
+                <div>
+                    <h:outputText value="#{userBean.loggedUser.username}" styleClass="text-white mr-4" rendered="#{userBean.loggedUser != null}" />
+                    <p:button value="Logout" icon="pi pi-fw pi-sign-out" styleClass="ui-button-info" rendered="#{userBean.loggedUser != null}"/>
+
+                    <h:link value="Login" outcome="login" styleClass="text-white mr-4 hover:text-blue-400 transition" rendered="#{userBean.loggedUser == null}" />
+                    <h:link value="Register" outcome="register" styleClass="text-white hover:text-blue-400 transition" rendered="#{userBean.loggedUser == null}" />
+                </div>
             </div>
         </nav>
 </ui:composition>

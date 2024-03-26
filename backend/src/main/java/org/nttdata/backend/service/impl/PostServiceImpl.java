@@ -59,7 +59,7 @@ public class PostServiceImpl implements PostService {
     @GET
     @Path("/search")
     public List<Post> getPostByKeyword(@QueryParam("q") String keyword) {
-        return postDAO.getPostByKeyword(keyword);
+        return postDAO.getPostsByKeyword(keyword);
     }
 
     @Override

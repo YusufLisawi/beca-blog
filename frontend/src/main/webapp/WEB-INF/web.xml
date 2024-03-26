@@ -15,7 +15,7 @@
     </servlet-mapping>
     <context-param>
         <param-name>javax.faces.PROJECT_STAGE</param-name>
-        <param-value>Development</param-value>
+        <param-value>Production</param-value>
     </context-param>
     <context-param>
         <param-name>primefaces.UPLOADER</param-name>
@@ -35,6 +35,6 @@
     </filter-mapping>
 
     <welcome-file-list>
-        <welcome-file>login.jsf</welcome-file>
+        <welcome-file>index.jsf</welcome-file>
     </welcome-file-list>
 </web-app>

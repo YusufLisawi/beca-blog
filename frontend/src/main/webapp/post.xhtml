@@ -1,0 +1,28 @@
+<ui:composition template="/WEB-INF/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
+    <ui:define name="title">
+        Post #{postBean.post.id}
+    </ui:define>
+    <ui:define name="content">
+        <ui:fragment rendered="#{postBean.post != null}">
+            <div class="container mx-auto p-8">
+                <p:card style="width: 50em; margin: auto;">
+                    <f:facet name="header">
+                        <img src="#{postBean.post.image}" style="width: 100%; height: auto;"/>
+                    </f:facet>
+                    <f:facet name="title">
+                        #{postBean.post.title}
+                    </f:facet>
+                    <f:facet name="subtitle">
+                        By @#{postBean.post.user.username}
+                    </f:facet>
+                    <p style="word-wrap: break-word;">#{postBean.post.content}</p>
+                </p:card>
+            </div>
+        </ui:fragment>
+    </ui:define>
+</ui:composition>

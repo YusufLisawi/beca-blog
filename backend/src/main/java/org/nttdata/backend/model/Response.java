@@ -8,12 +8,16 @@ public class Response {
         this.status = status;
         this.message = message;
     }
+    public Response() {
+    }
 
     public Response() {
     }
 
     private boolean status;
     private String message;
+
+
     public boolean isStatus() {
         return status;
     }

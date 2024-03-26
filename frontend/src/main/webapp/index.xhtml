@@ -1,33 +1,56 @@
-<!-- index.xhtml -->
 <ui:composition template="/WEB-INF/template.xhtml"
-				xmlns="http://www.w3.org/1999/xhtml"
-				xmlns:ui="http://java.sun.com/jsf/facelets"
-				xmlns:h="http://java.sun.com/jsf/html"
-				xmlns:p="http://primefaces.org/ui">
-	<ui:define name="title">
-		Blog
-	</ui:define>
-	<ui:define name="content">
-		<div class="container mx-auto px-4">
-			<div class="flex justify-center">
-				<p:inputText id="search" styleClass="w-1/2 p-2 my-4 border rounded"/>
-				<p:watermark for="search" value="Search..." />
-			</div>
-			<div class="flex justify-between mb-3">
-				<h1 class="text-4xl font-bold mb-4">Blog Posts</h1>
-				<p:commandButton value="Add Post" styleClass="rounded-xl ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only mb-4 px-4 py-2 bg-blue-500 text-white"/>
-			</div>
-			<div class="grid grid-cols-3 gap-4">
-				<p:panel header="Post Title 1" styleClass="mb-4 p-4 border rounded shadow">
-					<h:outputText value="This is the content of the first blog post." styleClass="text-base"/>
-				</p:panel>
-				<p:panel header="Post Title 2" styleClass="mb-4 p-4 border rounded shadow">
-					<h:outputText value="This is the content of the second blog post." styleClass="text-base"/>
-				</p:panel>
-				<p:panel header="Post Title 3" styleClass="mb-4 p-4 border rounded shadow">
-					<h:outputText value="This is the content of the third blog post." styleClass="text-base"/>
-				</p:panel>
-			</div>
-		</div>
-	</ui:define>
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
+    <ui:define name="title">
+        Blog | Home
+    </ui:define>
+    <ui:define name="content">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-center w-full">
+<!--                <div class="ui-input-icon-left">-->
+<!--                    <i class="pi pi-fw pi-search"/>-->
+                    <h:form id="searchForm">
+                        <p:inputText id="searchInput" placeholder="Search..." styleClass="p-2 my-4 border rounded"
+                                     value="#{postBean.keyword}"/>
+                        <p:commandButton action="#{postBean.getPosts}" icon="pi pi-search" style="padding: 2px" styleClass="ui-button-info"
+                                         ajax="false"/>
+                    </h:form>
+<!--                </div>-->
+            </div>
+            <div class="flex justify-between mb-3">
+                <h1 class="text-4xl font-bold mb-4">Blog Posts</h1>
+                <p:commandButton value="Add Post" icon="pi pi-plus" styleClass="ui-button-info"/>
+            </div>
+            <h:panelGroup id="posts" styleClass="grid grid-cols-1 gap-4 sm:grid-cols-3">
+                <ui:fragment rendered="#{not empty postBean.posts}">
+                    <ui:repeat value="#{postBean.posts}" var="post">
+                        <p:card style="width: 25em">
+                            <f:facet name="header">
+                                <img src="#{post.image}"/>
+                            </f:facet>
+                            <f:facet name="title">
+                                #{post.title}
+                            </f:facet>
+                            <f:facet name="subtitle">
+                                By @#{post.user.username}
+                            </f:facet>
+                            <p style="word-wrap: break-word;">#{postBean.truncateContent(post.content)}</p>
+
+                            <f:facet name="footer">
+                                <p:link outcome="post" value="Read More">
+                                    <f:param name="id" value="#{post.id}"/>
+                                </p:link>
+                            </f:facet>
+                        </p:card>
+                    </ui:repeat>
+                </ui:fragment>
+                <ui:fragment rendered="#{empty postBean.posts}">
+                    <h2 class="text-2xl">No posts found</h2>
+                </ui:fragment>
+            </h:panelGroup>
+        </div>
+    </ui:define>
 </ui:composition>
