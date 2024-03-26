@@ -7,9 +7,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +18,17 @@ public class PostBean implements Serializable {
     private static final PostService postService = new PostService();
     private List<Post> posts = new ArrayList<>();
     private Post post;
+    private Post newPost = new Post();
+    @ManagedProperty(value="#{userBean}")
+    private UserBean userBean;
+
+    public Post getNewPost() {
+        return newPost;
+    }
+
+    public void setNewPost(Post newPost) {
+        this.newPost = newPost;
+    }
 
     @ManagedProperty(value = "#{param.id}")
     private String id;
@@ -51,6 +60,14 @@ public class PostBean implements Serializable {
         return post;
     }
 
+    public void addPost() {
+        newPost.setUser(userBean.getLoggedUser());
+        postService.addPost(newPost);
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Post added", "Post added successfully");
+        FacesContext.getCurrentInstance().addMessage(null, message);
+        newPost = new Post();
+    }
+
     public String getId() {
         return id;
     }
@@ -73,5 +90,13 @@ public class PostBean implements Serializable {
         } else {
             return content;
         }
+    }
+
+    public UserBean getUserBean() {
+        return userBean;
+    }
+
+    public void setUserBean(UserBean userBean) {
+        this.userBean = userBean;
     }
 }
