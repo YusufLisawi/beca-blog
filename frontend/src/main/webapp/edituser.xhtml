@@ -1,0 +1,33 @@
+<ui:composition template="/WEB-INF/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
+    <ui:define name="title">
+        Blog | Edit User
+    </ui:define>
+    <ui:define name="content">
+        <div class="container mx-auto px-4 py-8">
+            <h1 class="text-3xl font-extrabold text-gray-900">Edit User</h1>
+            <h:form styleClass="mt-8 space-y-6">
+                <div class="rounded-md shadow-sm -space-y-px">
+                    <div>
+                        <p:outputLabel for="username" value="Username" styleClass="font-bold text-xl"/>
+                        <p:inputText id="username" value="#{user.username}"
+                                     styleClass="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"/>
+                    </div>
+                    <div>
+                        <p:outputLabel for="password" value="Password" styleClass="font-bold text-xl"/>
+                        <p:inputText id="password" value="#{user.password}"
+                                         styleClass="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"/>
+                    </div>
+                </div>
+                <div>
+                    <p:commandButton value="Edit User" action="#{adminBean.updateUser}" update="message"
+                                     styleClass="ui-button-info"/>
+                </div>
+            </h:form>
+        </div>
+    </ui:define>
+</ui:composition>

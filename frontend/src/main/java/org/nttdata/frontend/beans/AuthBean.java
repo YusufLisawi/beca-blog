@@ -18,7 +18,7 @@ import java.io.IOException;
 @ManagedBean(name = "authBean", eager = true)
 @SessionScoped
 public class AuthBean {
-    private final String restResourceUrl = "http://localhost:8080/backend_war/api/auth/";
+    private final String restResourceUrl = "http://localhost:8080/backend/api/auth/";
     private User user = new User();
     private final ObjectMapper mapper = new ObjectMapper();
     @ManagedProperty(value="#{userBean}")
