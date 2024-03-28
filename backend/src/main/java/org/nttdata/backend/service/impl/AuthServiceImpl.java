@@ -32,6 +32,7 @@ public class AuthServiceImpl implements AuthService {
         User newUser = new User();
         newUser.setUsername(u.getUsername());
         newUser.setPassword(hashedPassword);
+        newUser.setAdmin(u.isAdmin());
 
         userDAO.addUser(newUser);
 

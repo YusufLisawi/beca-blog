@@ -17,7 +17,7 @@ public class User implements Serializable {
     private String username;
     private String password;
     @ColumnDefault("false")
-    private boolean isAdmin;
+    private boolean isAdmin = false;
 
 //    @OneToMany(mappedBy = "user")
 //    private List<Post> posts;

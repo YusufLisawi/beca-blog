@@ -1,100 +1,126 @@
 <ui:composition template="/WEB-INF/template.xhtml"
-	xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:f="http://java.sun.com/jsf/core">
-	<ui:define name="title">
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
+    <ui:define name="title">
         User Management | Admin Panel
     </ui:define>
-	<ui:define name="content">
-		<div class="container mx-auto px-4 py-8">
-			<div class="flex justify-between mb-3">
-				<h1 class="text-4xl font-bold mb-4">User Management</h1>
-				<p:commandButton value="Add User" type="button" icon="pi pi-plus"
-					onclick="PF('userDialogVar').show()" />
+    <ui:define name="content">
+        <div class="container mx-auto px-4 py-8">
+            <div class="flex justify-between mb-3">
+                <h1 class="text-4xl font-bold mb-4">User Management</h1>
+                <p:commandButton value="Add User" type="button" icon="pi pi-plus"
+                                 onclick="PF('userDialogVar').show()"/>
 
-			</div>
+            </div>
 
-			<p:dialog header="Create User" widgetVar="userDialogVar"
-				minHeight="50" width="360" showEffect="fade" minimizable="true"
-				maximizable="true" modal="true" position="center">
-				<h:form styleClass="mt-8 space-y-6">
-					<div class="rounded-md shadow-sm -space-y-px">
-						<div>
-							<p:outputLabel for="username" value="Username"
-								styleClass="font-bold text-xl" />
-							<p:inputText id="username" value="#{adminBean.newUser.username}"
-								styleClass="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" />
-						</div>
-						<div>
-							<p:outputLabel for="password" value="Password"
-								styleClass="font-bold text-xl" />
-							<p:inputText id="password" value="#{adminBean.newUser.password}"
-								styleClass="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" />
-						</div>
-					</div>
-					<div>
-						<p:commandButton value="Create User" action="#{adminBean.addUser}"
-							update="message" styleClass="ui-button-info" />
-					</div>
-				</h:form>
-			</p:dialog>
-			
-			<h:form id="form">
-				<p:growl id="msgs" showDetail="true" />
-				<div class="card">
-					<p:dataTable id="usersTable" var="user"
-						value="#{adminBean.userList}" editable="true"
-						style="margin-bottom:20px" paginator="true"
-						paginatorPosition="both"
-						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-						currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
-						rowsPerPageTemplate="5,10,{ShowAll|'All'}">
+            <p:dialog header="Create User" widgetVar="userDialogVar"
+                      minHeight="50" width="360" showEffect="fade" minimizable="true"
+                      maximizable="true" modal="true" position="center">
+                <h:form styleClass="mt-6 space-y-4">
+                    <div class="rounded-md shadow-sm flex flex-col justify-center gap-2">
+                        <div>
+                            <p:outputLabel for="username" value="Username"
+                                           styleClass="font-bold text-xl"/>
+                            <p:inputText id="username" value="#{adminBean.newUser.username}"
+                                         styleClass="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"/>
+                        </div>
+                        <div>
+                            <p:outputLabel for="password" value="Password"
+                                           styleClass="font-bold text-xl"/>
+                            <p:inputText id="password" value="#{adminBean.newUser.password}"
+                                         styleClass="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"/>
+                        </div>
+                        <div>
+                            <p:outputLabel for="authority" value="Authority"
+                                           styleClass="font-bold text-xl block"/>
+                            <p:selectBooleanCheckbox id="authority" value="#{adminBean.newUser.admin}" itemLabel="Is Admin" styleClass="block w-full"/>
+                        </div>
+                    </div>
+                    <div>
+                        <p:commandButton value="Create User" action="#{adminBean.addUser}"
+                                         update="message" styleClass="ui-button-info"/>
+                    </div>
+                </h:form>
+            </p:dialog>
 
-						<p:ajax event="rowEdit" listener="#{adminBean.onRowEdit}"
-							update=":form:msgs" />
-						<p:ajax event="rowEditCancel" listener="#{adminBean.onRowCancel}"
-							update=":form:msgs" />
+            <h:form id="form">
+                <p:growl id="msgs" showDetail="true"/>
+                <div class="card">
+                    <p:dataTable id="usersTable" var="user"
+                                 value="#{adminBean.userList}" editable="true"
+                                 style="margin-bottom:20px" paginator="true"
+                                 paginatorPosition="both"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                                 rowsPerPageTemplate="5,10,{ShowAll|'All'}">
 
-						<p:column headerText="Username">
-							<p:cellEditor>
-								<f:facet name="output">
-									<h:outputText value="#{user.username}" />
+                        <p:ajax event="rowEdit" listener="#{adminBean.onRowEdit}"
+                                update=":form:msgs"/>
+                        <p:ajax event="rowEditCancel" listener="#{adminBean.onRowCancel}"
+                                update=":form:msgs"/>
+
+                        <p:column headerText="Username">
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <h:outputText value="#{user.username}"/>
+                                </f:facet>
+                                <f:facet name="input">
+                                    <p:inputText value="#{user.username}" style="width:100%"
+                                                 label="Username"/>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                        <p:column headerText="Password">
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <h:outputText value="********"/>
+                                </f:facet>
+                                <f:facet name="input">
+                                    <p:inputText value="#{user.password}" style="width:100%"
+                                                 label="Password"/>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                        <p:column headerText="Admin">
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <h:outputText value="#{user.admin ? 'Yes' : 'No'}"/>
 								</f:facet>
-								<f:facet name="input">
-									<p:inputText value="#{user.username}" style="width:100%"
-										label="Username" />
+                                <f:facet name="input">
+									<p:selectBooleanCheckbox value="#{user.admin}" itemLabel="Is Admin" styleClass="block w-full"/>
 								</f:facet>
-							</p:cellEditor>
+                            </p:cellEditor>
+                        </p:column>
+
+                        <p:column style="width:6rem">
+                            <p:rowEditor/>
+                        </p:column>
+                        <p:column style="width:3rem">
+                            <p:commandButton icon="pi pi-trash"
+                                             styleClass="ui-button-danger"
+                                             action="#{adminBean.deleteUser(user.id)}"
+                                             update=":form:msgs :form:usersTable">
+								<p:confirm header="Confirmation" message="Do you want to delete this record?"
+										   icon="pi pi-info-circle"/>
+							</p:commandButton>
+							<p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true"
+											 width="350">
+								<p:commandButton value="No" type="button"
+												 styleClass="ui-confirmdialog-no ui-button-flat"/>
+								<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes ui-button-danger"/>
+							</p:confirmDialog>
 						</p:column>
+                    </p:dataTable>
 
-						<p:column headerText="Password">
-							<p:cellEditor>
-								<f:facet name="output">
-									<h:outputText value="#{user.password}" />
-								</f:facet>
-								<f:facet name="input">
-									<p:inputText value="#{user.password}" style="width:100%"
-										label="Password" />
-								</f:facet>
-							</p:cellEditor>
-						</p:column>
+                </div>
 
-						<p:column style="width:6rem">
-							<p:rowEditor />
-						</p:column>
-						<p:column style="width:3rem">
-							<p:commandButton icon="pi pi-trash"
-								action="#{adminBean.deleteUser(user.id)}"
-								update=":form:msgs :form:usersTable" />
-						</p:column>
-					</p:dataTable>
+            </h:form>
 
-				</div>
-
-			</h:form>
-
-		</div>
-	</ui:define>
+        </div>
+    </ui:define>
 </ui:composition>
