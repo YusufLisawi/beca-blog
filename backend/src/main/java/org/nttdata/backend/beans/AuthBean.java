@@ -4,6 +4,7 @@ import org.nttdata.backend.model.Response;
 import org.nttdata.backend.model.User;
 import org.nttdata.backend.service.impl.AuthServiceImpl;
 
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -11,12 +12,14 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
 @ManagedBean(name = "authBean", eager = true)
-@SessionScoped
 public class AuthBean {
     private User user = new User();
-    private AuthServiceImpl authService = new AuthServiceImpl();
+    private final AuthServiceImpl authService = new AuthServiceImpl();
     @ManagedProperty(value="#{adminBean}")
     private AdminBean adminBean;
+
+    @PostConstruct
+    public void init() {}
 
     public User getUser() {
         return user;

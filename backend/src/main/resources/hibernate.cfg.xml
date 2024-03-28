@@ -7,8 +7,8 @@
         <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
         <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/becaBlog?createDatabaseIfNotExist=true</property>
 
-        <property name="hibernate.connection.username">root</property>
-        <property name="hibernate.connection.password">Cinnamonrolls01</property>
+        <property name="hibernate.connection.username">yusuf</property>
+        <property name="hibernate.connection.password">DB_sql_0000</property>
         <property name="hibernate.dialect">org.hibernate.dialect.MySQL8Dialect</property>
         <property name="hibernate.current_session_context_class">thread</property>
         <property name="hibernate.enable_lazy_load_no_trans">true</property>
