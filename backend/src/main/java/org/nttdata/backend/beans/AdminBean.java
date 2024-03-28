@@ -3,12 +3,14 @@ package org.nttdata.backend.beans;
 
 import org.nttdata.backend.dao.impl.UserDAOImpl;
 import org.nttdata.backend.model.User;
+import org.primefaces.event.RowEditEvent;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import org.primefaces.PrimeFaces;
 import java.io.Serializable;
 import java.util.List;
 
@@ -48,28 +50,31 @@ public class AdminBean implements Serializable {
         userDao.addUser(newUser);
         loadUsers();
         newUser = new User(); 
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "User added successfully");
+        FacesContext.getCurrentInstance().addMessage(null, message);
+        PrimeFaces.current().ajax().update(":form:usersTable");
+        PrimeFaces.current().executeScript("PF('userDialogVar').hide();");    
     }
 
     public void deleteUser(int userId) {
         userDao.removeUser(userId);
         loadUsers(); 
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "User deleted successfully");
+        FacesContext.getCurrentInstance().addMessage(null, message);
     }
-   
-    public void updateUser() {
-        if (selectedUser != null) {
-            userDao.updateUser(selectedUser);
-            loadUsers(); // Refresh the user list after attempting to update
-            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "User updated successfully");
-            FacesContext.getCurrentInstance().addMessage(null, message);
-        } else {
-            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning", "No user selected for update");
-            FacesContext.getCurrentInstance().addMessage(null, message);
-        }
-    }
-
-
     
-    // Getters and setters
+    public void onRowEdit(RowEditEvent<User> event) {
+        User editedUser = (User) event.getObject();
+        userDao.updateUser(editedUser);
+        FacesMessage msg = new FacesMessage("User Edited", String.valueOf(editedUser.getId()));
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+
+    public void onRowCancel(RowEditEvent<User> event) {
+        FacesMessage msg = new FacesMessage("Edit Cancelled", String.valueOf(((User) event.getObject()).getId()));
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+    
     public List<User> getUserList() {
         return userList;
     }
