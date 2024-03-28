@@ -26,7 +26,6 @@ public class AdminBean implements Serializable {
 	private UserDAOImpl userDao;
     private List<User> userList;
     private User newUser = new User();
-    private User selectedUser;
     private final AuthServiceImpl authService = new AuthServiceImpl();
     private User loggedUser = null;
 
@@ -40,14 +39,7 @@ public class AdminBean implements Serializable {
 
     @PostConstruct
     public void init() {
-        if (loggedUser != null)
-            System.out.println("Logged in as " + loggedUser.getUsername() + " with id " + loggedUser.getId() + " and isAdmin " + loggedUser.isAdmin());
         userDao = new UserDAOImpl();
-        loadUsers();
-    }
-
-    public void loadUsers() {
-        userList = userDao.listUsers();
     }
 
 	public void addUser() {
@@ -65,12 +57,10 @@ public class AdminBean implements Serializable {
 
         }
         newUser = new User();
-        loadUsers();
     }
 
     public void deleteUser(int userId) {
         userDao.removeUser(userId);
-        loadUsers(); 
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "User deleted successfully");
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
@@ -90,6 +80,7 @@ public class AdminBean implements Serializable {
     }
     
     public List<User> getUserList() {
+        userList = userDao.listUsers();
         return userList;
     }
 

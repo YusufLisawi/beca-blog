@@ -17,6 +17,7 @@
             </div>
 
             <p:dialog header="Create User" widgetVar="userDialogVar"
+                      id="userDialog"
                       minHeight="50" width="360" showEffect="fade" minimizable="true"
                       maximizable="true" modal="true" position="center">
                 <h:form styleClass="mt-6 space-y-4">
@@ -41,7 +42,7 @@
                     </div>
                     <div>
                         <p:commandButton value="Create User" action="#{adminBean.addUser}"
-                                         update="message" styleClass="ui-button-info"/>
+                                         update="message userDialog" styleClass="ui-button-info"/>
                     </div>
                 </h:form>
             </p:dialog>
