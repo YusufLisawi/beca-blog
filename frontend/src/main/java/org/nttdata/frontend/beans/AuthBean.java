@@ -53,7 +53,7 @@ public class AuthBean {
             if (res.isStatus()) {
                 userBean.setLoggedUser(res.getUser());
                 user = new User();
-                return "index?faces-redirect=true";
+                return "login?faces-redirect=true";
             } else {
                 FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Registration Failed", res.getMessage());
                 FacesContext.getCurrentInstance().addMessage(null, message);
