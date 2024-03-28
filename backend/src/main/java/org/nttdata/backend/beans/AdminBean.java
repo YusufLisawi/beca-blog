@@ -1,8 +1,11 @@
 package org.nttdata.backend.beans;
 
 
+import at.favre.lib.crypto.bcrypt.BCrypt;
 import org.nttdata.backend.dao.impl.UserDAOImpl;
+import org.nttdata.backend.model.Response;
 import org.nttdata.backend.model.User;
+import org.nttdata.backend.service.impl.AuthServiceImpl;
 import org.primefaces.event.RowEditEvent;
 
 import javax.annotation.PostConstruct;
@@ -23,8 +26,7 @@ public class AdminBean implements Serializable {
 	private UserDAOImpl userDao;
     private List<User> userList;
     private User newUser = new User();
-    private User selectedUser;
-    private boolean usersFetchedSuccessfully;
+    private final AuthServiceImpl authService = new AuthServiceImpl();
     private User loggedUser = null;
 
     public User getLoggedUser() {
@@ -37,56 +39,48 @@ public class AdminBean implements Serializable {
 
     @PostConstruct
     public void init() {
-        if (loggedUser != null)
-            System.out.println("Logged in as " + loggedUser.getUsername() + " with id " + loggedUser.getId() + " and isAdmin " + loggedUser.isAdmin());
         userDao = new UserDAOImpl();
-        loadUsers();
     }
-
-    public void loadUsers() {
-        userList = userDao.listUsers();
-        usersFetchedSuccessfully = userList != null && !userList.isEmpty();
-    }
-
-
-    public boolean isUsersFetchedSuccessfully() {
-		return usersFetchedSuccessfully;
-	}
-
-	public void setUsersFetchedSuccessfully(boolean usersFetchedSuccessfully) {
-		this.usersFetchedSuccessfully = usersFetchedSuccessfully;
-	}
 
 	public void addUser() {
-        userDao.addUser(newUser);
-        loadUsers();
-        newUser = new User(); 
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "User added successfully");
-        FacesContext.getCurrentInstance().addMessage(null, message);
-        PrimeFaces.current().ajax().update(":form:usersTable");
-        PrimeFaces.current().executeScript("PF('userDialogVar').hide();");    
+        Response res = authService.register(newUser);
+        if (res != null && !res.isStatus()) {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Registration Failed", res.getMessage());
+            FacesContext.getCurrentInstance().addMessage(null, message);
+            return;
+        }
+        else if (res != null && res.isStatus()) {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "User added successfully");
+            FacesContext.getCurrentInstance().addMessage(null, message);
+            PrimeFaces.current().ajax().update(":form:usersTable");
+            PrimeFaces.current().executeScript("PF('userDialogVar').hide();");
+
+        }
+        newUser = new User();
     }
 
     public void deleteUser(int userId) {
         userDao.removeUser(userId);
-        loadUsers(); 
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "User deleted successfully");
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
     
     public void onRowEdit(RowEditEvent<User> event) {
         User editedUser = (User) event.getObject();
+        String hashedPassword = BCrypt.withDefaults().hashToString(12, editedUser.getPassword().toCharArray());
+        editedUser.setPassword(hashedPassword);
         userDao.updateUser(editedUser);
-        FacesMessage msg = new FacesMessage("User Edited", String.valueOf(editedUser.getId()));
+        FacesMessage msg = new FacesMessage("User Edited", "User " + editedUser.getUsername() + " edited successfully");
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
     public void onRowCancel(RowEditEvent<User> event) {
-        FacesMessage msg = new FacesMessage("Edit Cancelled", String.valueOf(((User) event.getObject()).getId()));
-        FacesContext.getCurrentInstance().addMessage(null, msg);
+//        FacesMessage msg = new FacesMessage("Edit Cancelled", null);
+//        FacesContext.getCurrentInstance().addMessage(null, msg);
     }
     
     public List<User> getUserList() {
+        userList = userDao.listUsers();
         return userList;
     }
 
@@ -100,14 +94,6 @@ public class AdminBean implements Serializable {
 
     public void setNewUser(User newUser) {
         this.newUser = newUser;
-    }
-
-    public User getSelectedUser() {
-        return selectedUser;
-    }
-
-    public void setSelectedUser(User selectedUser) {
-        this.selectedUser = selectedUser;
     }
 
 }
