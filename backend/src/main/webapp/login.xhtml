@@ -16,7 +16,7 @@
             <div class="max-w-md w-full space-y-8">
                 <div>
                     <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
-                        Sign in to your account
+                        Sign in to admin dashboard
                     </h2>
                 </div>
                 <h:form styleClass="mt-8 space-y-6">
@@ -29,7 +29,7 @@
                         </div>
                     </div>
                     <div>
-                        <p:commandButton value="Sign in" action="#{authBean.login}" update="message" styleClass="ui-button-info w-full"/>
+                        <p:commandButton value="Sign in" action="#{authBean.login}" ajax="false" update="message" styleClass="ui-button-info w-full"/>
                     </div>
                 </h:form>
             </div>

@@ -35,7 +35,11 @@ public class AuthBean {
             if (res.isStatus() && res.getUser().isAdmin()) {
                 adminBean.setLoggedUser(res.getUser());
                 user = new User();
-                return "admin";
+                return "admin?faces-redirect=true";
+            } else if (res.isStatus() && !res.getUser().isAdmin()) {
+                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Login Failed", "You are not an admin");
+                FacesContext.getCurrentInstance().addMessage(null, message);
+                return "login";
             } else {
                 FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Login Failed", res.getMessage());
                 FacesContext.getCurrentInstance().addMessage(null, message);

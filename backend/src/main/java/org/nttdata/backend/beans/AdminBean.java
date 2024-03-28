@@ -109,4 +109,5 @@ public class AdminBean implements Serializable {
     public void setSelectedUser(User selectedUser) {
         this.selectedUser = selectedUser;
     }
+
 }

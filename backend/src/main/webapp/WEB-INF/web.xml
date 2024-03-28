@@ -52,6 +52,10 @@
         <filter-name>LoginFilter</filter-name>
         <url-pattern>/admin.jsf</url-pattern>
     </filter-mapping>
+    <filter-mapping>
+        <filter-name>LoginFilter</filter-name>
+        <url-pattern>/login.jsf</url-pattern>
+    </filter-mapping>
 
     <welcome-file-list>
         <welcome-file>admin.jsf</welcome-file>
