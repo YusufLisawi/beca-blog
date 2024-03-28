@@ -1,0 +1,19 @@
+<!-- navbar.xhtml -->
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+        <nav class="p-4 bg-gray-700">
+            <div class="container mx-auto px-4 flex items-center justify-between">
+                <div class="flex items-center gap-6">
+                    <h:link value="Beca Blog Admin" outcome="admin" styleClass="text-white text-2xl font-bold"/>
+                </div>
+                <div class="flex items-center">
+                    <h:form styleClass="mb-0">
+                        <h:outputText value="#{userBean.loggedUser.username}" styleClass="text-white mr-4" rendered="#{userBean.loggedUser != null}" />
+                        <p:commandButton action="#{authBean.logout}" value="Logout" icon="pi pi-fw pi-sign-out" styleClass="ui-button-info" rendered="#{userBean.loggedUser != null}"/>
+                    </h:form>
+                </div>
+            </div>
+        </nav>
+</ui:composition>
