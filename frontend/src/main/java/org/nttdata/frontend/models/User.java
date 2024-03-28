@@ -1,11 +1,23 @@
 package org.nttdata.frontend.models;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class User   {
     private int id;
     private String username;
     private String password;
+
+    private boolean isAdmin;
+
+
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
+    }
 
     public User() {
     }
