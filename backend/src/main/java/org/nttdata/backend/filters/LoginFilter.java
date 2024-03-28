@@ -18,14 +18,9 @@ public class LoginFilter implements Filter {
 
         AdminBean adminBean = (session != null) ? (AdminBean) session.getAttribute("adminBean") : null;
         String loginURI = request.getContextPath() + "/login.jsf";
-        String adminURI = request.getContextPath() + "/admin.jsf";
 
-            System.out.println("yes");
         if (adminBean == null || adminBean.getLoggedUser() == null) {
             response.sendRedirect(loginURI);
-        }
-        else if (adminBean.getLoggedUser() != null) {
-            response.sendRedirect(adminURI);
         }
         else {
             chain.doFilter(req, res);
