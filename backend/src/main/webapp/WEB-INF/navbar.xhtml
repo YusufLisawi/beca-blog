@@ -10,8 +10,8 @@
                 </div>
                 <div class="flex items-center">
                     <h:form styleClass="mb-0">
-                        <h:outputText value="#{userBean.loggedUser.username}" styleClass="text-white mr-4" rendered="#{userBean.loggedUser != null}" />
-                        <p:commandButton action="#{authBean.logout}" value="Logout" icon="pi pi-fw pi-sign-out" styleClass="ui-button-info" rendered="#{userBean.loggedUser != null}"/>
+                        <h:outputText value="#{adminBean.loggedUser.username}" styleClass="text-white mr-4" rendered="#{adminBean.loggedUser != null}" />
+                        <p:commandButton action="#{authBean.logout}" value="Logout" icon="pi pi-fw pi-sign-out" styleClass="ui-button-info" rendered="#{adminBean.loggedUser != null}"/>
                     </h:form>
                 </div>
             </div>

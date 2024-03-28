@@ -8,28 +8,39 @@ import org.primefaces.event.RowEditEvent;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import org.primefaces.PrimeFaces;
 import java.io.Serializable;
 import java.util.List;
 
-@ManagedBean(name = "adminBean")
-@ViewScoped
+@ManagedBean(name = "adminBean", eager = true)
+@SessionScoped
 public class AdminBean implements Serializable {
   
 	private static final long serialVersionUID = 1L;
 	private UserDAOImpl userDao;
     private List<User> userList;
-    private User newUser;
+    private User newUser = new User();
     private User selectedUser;
     private boolean usersFetchedSuccessfully;
+    private User loggedUser = null;
+
+    public User getLoggedUser() {
+        return loggedUser;
+    }
+
+    public void setLoggedUser(User loggedUser) {
+        this.loggedUser = loggedUser;
+    }
 
     @PostConstruct
     public void init() {
+        if (loggedUser != null)
+            System.out.println("Logged in as " + loggedUser.getUsername() + " with id " + loggedUser.getId() + " and isAdmin " + loggedUser.isAdmin());
         userDao = new UserDAOImpl();
         loadUsers();
-        newUser = new User();
     }
 
     public void loadUsers() {
