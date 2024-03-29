@@ -1,3 +1,5 @@
+use becaBlog;
+
 -- Create admin user
 INSERT INTO user (username, password, isAdmin) VALUES ('admin', '$2a$12$h02dzQNUfMdp9/18KgFf.OHx0SwH5y2mmAdR.HT3L9ynnbR5H5RbC', true);
 
