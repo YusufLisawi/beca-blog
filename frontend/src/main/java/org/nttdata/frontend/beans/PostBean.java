@@ -18,6 +18,7 @@ public class PostBean implements Serializable {
     private static final PostService postService = new PostService();
     private List<Post> posts = new ArrayList<>();
     private Post post;
+    private Post editPost;
     private Post newPost = new Post();
     @ManagedProperty(value="#{userBean}")
     private UserBean userBean;
@@ -69,6 +70,13 @@ public class PostBean implements Serializable {
         return "my-posts?faces-redirect=true";
     }
 
+    public String updatePost() {
+        postService.updatePost(editPost);
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Post updated", "Post updated successfully");
+        FacesContext.getCurrentInstance().addMessage(null, message);
+        return "my-posts?faces-redirect=true";
+    }
+
     public String getId() {
         return id;
     }
@@ -99,5 +107,13 @@ public class PostBean implements Serializable {
 
     public void setUserBean(UserBean userBean) {
         this.userBean = userBean;
+    }
+
+    public Post getEditPost() {
+        return editPost;
+    }
+
+    public void setEditPost(Post editPost) {
+        this.editPost = editPost;
     }
 }

@@ -10,9 +10,7 @@ import org.primefaces.event.RowEditEvent;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.*;
 import javax.faces.context.FacesContext;
 import org.primefaces.PrimeFaces;
 import java.io.Serializable;
@@ -63,14 +61,19 @@ public class AdminBean implements Serializable {
             PrimeFaces.current().executeScript("PF('userDialogVar').hide();");
 
         }
-        newUser = new User();
         updateData();
+        newUser = new User();
     }
 
     public void deleteUser(int userId) {
-        userDao.removeUser(userId);
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "User deleted successfully");
-        FacesContext.getCurrentInstance().addMessage(null, message);
+        try {
+            userDao.removeUser(userId);
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "User deleted successfully");
+            FacesContext.getCurrentInstance().addMessage(null, message);
+        } catch (Exception e) {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "User deletion failed");
+            FacesContext.getCurrentInstance().addMessage(null, message);
+        }
         updateData();
     }
     
@@ -102,7 +105,7 @@ public class AdminBean implements Serializable {
         selectedUser = new User();
         newPassword = "";
     }
-    
+
     public List<User> getUserList() {
 //        userList = userDao.listUsers();
         return userList;

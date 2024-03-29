@@ -1,5 +1,6 @@
 package org.nttdata.backend.dao.impl;
 
+import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.nttdata.backend.dao.UserDAO;
 import org.nttdata.backend.model.User;
@@ -45,12 +46,36 @@ public class UserDAOImpl implements UserDAO {
     }
 
     public void removeUser(int id) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-        User user = (User) session.get(User.class, id);
-        session.delete(user);
-        session.getTransaction().commit();
-        session.close();
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            transaction = session.beginTransaction();
+
+            // Delete all posts related to the user
+            String hqlDeletePosts = "delete from Post where user.id = :id";
+            Query queryDeletePosts = session.createQuery(hqlDeletePosts);
+            queryDeletePosts.setParameter("id", id);
+            queryDeletePosts.executeUpdate();
+
+            // Delete the user
+            String hqlDeleteUser = "delete from User where id = :id";
+            Query queryDeleteUser = session.createQuery(hqlDeleteUser);
+            queryDeleteUser.setParameter("id", id);
+            queryDeleteUser.executeUpdate();
+
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw e;
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+
     }
 
     public User getUserByUsername(String username) {

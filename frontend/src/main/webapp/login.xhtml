@@ -28,10 +28,9 @@
                             <p:password id="password" value="#{authBean.user.password}" styleClass="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm mb-4" placeholder="Password"/>
                         </div>
                     </div>
-                    <div>
+                    <div class="flex flex-col items-center justify-center gap-2">
                         <p:commandButton value="Sign in" action="#{authBean.login}" update="message" styleClass="ui-button-info w-full"/>
                         <p:link outcome="register" value="Don't have an account? Register here" styleClass="mt-2"/>
-
                     </div>
                 </h:form>
             </div>

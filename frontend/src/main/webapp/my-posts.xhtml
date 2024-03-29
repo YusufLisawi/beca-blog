@@ -28,8 +28,9 @@
 
                             <f:facet name="footer">
                                 <h:form>
-                                    <p:commandButton title="Modify" value="Edit" icon="pi pi-pencil"
-                                                     styleClass="ui-button-secondary" style="margin-right: 4px"/>
+                                    <p:button title="Modify" value="Edit" icon="pi pi-pencil"
+                                                     styleClass="ui-button-secondary" style="margin-right: 4px">
+                                    </p:button>
                                     <p:commandButton action="#{userBean.deletePost(post.id)}" update="posts message"
                                                      title="Delete" value="Delete"
                                                      icon="pi pi-trash"

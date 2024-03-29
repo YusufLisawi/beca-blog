@@ -44,7 +44,7 @@
 						<p:column headerText="Content">
 							<p:cellEditor>
 								<f:facet name="output">
-									<h:outputText value="#{post.content}" />
+									<h:outputText value="#{postBean.truncateContent(post.content)}" />
 								</f:facet>
 								<f:facet name="input">
 									<p:inputTextarea value="#{post.content}" style="width:100%"
@@ -52,7 +52,19 @@
 								</f:facet>
 							</p:cellEditor>
 						</p:column>
-		
+
+						<p:column headerText="Posted By">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="@#{post.user.username}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText value="#{post.user.username}" style="width:100%" disabled="true"
+										label="Posted By" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+
 						<p:column style="width:6rem">
 							<p:rowEditor />
 						</p:column>

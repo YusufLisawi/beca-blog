@@ -88,7 +88,9 @@ public class AuthBean {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return "login?faces-redirect=true";
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Login Failed", "An error occurred");
+            FacesContext.getCurrentInstance().addMessage(null, message);
+            return "login";
         }
     }
 
