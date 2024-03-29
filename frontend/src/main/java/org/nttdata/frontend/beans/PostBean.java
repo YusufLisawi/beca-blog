@@ -60,12 +60,13 @@ public class PostBean implements Serializable {
         return post;
     }
 
-    public void addPost() {
+    public String addPost() {
         newPost.setUser(userBean.getLoggedUser());
         postService.addPost(newPost);
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Post added", "Post added successfully");
         FacesContext.getCurrentInstance().addMessage(null, message);
         newPost = new Post();
+        return "my-posts?faces-redirect=true";
     }
 
     public String getId() {

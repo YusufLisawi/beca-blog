@@ -12,7 +12,7 @@
         <div class="container mx-auto px-4 py-8">
             <div class="flex justify-between mb-3">
                 <h1 class="text-4xl font-bold mb-4">My Posts</h1>
-                <p:commandButton value="Add Post" icon="pi pi-plus" styleClass="ui-button-info"/>
+                <p:button outcome="addpost" value="Add Post" icon="pi pi-plus" styleClass="ui-button-info"/>
             </div>
             <h:panelGroup id="posts" styleClass="grid grid-cols-1 gap-4 sm:grid-cols-3">
                 <ui:fragment rendered="#{not empty userBean.posts}">
