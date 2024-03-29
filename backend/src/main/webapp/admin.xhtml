@@ -37,11 +37,31 @@
                         <div>
                             <p:outputLabel for="authority" value="Authority"
                                            styleClass="font-bold text-xl block"/>
-                            <p:selectBooleanCheckbox id="authority" value="#{adminBean.newUser.admin}" itemLabel="Is Admin" styleClass="block w-full"/>
+                            <p:selectBooleanCheckbox id="authority" value="#{adminBean.newUser.admin}"
+                                                     itemLabel="Is Admin" styleClass="block w-full"/>
                         </div>
                     </div>
                     <div>
                         <p:commandButton value="Create User" action="#{adminBean.addUser}"
+                                         update="message userDialog" styleClass="ui-button-info"/>
+                    </div>
+                </h:form>
+            </p:dialog>
+            <p:dialog header="Change password" widgetVar="passwordDialog"
+                      id="passwordDialog"
+                      minHeight="50" width="360" showEffect="fade" minimizable="true"
+                      maximizable="true" modal="true" position="center">
+                <h:form styleClass="mt-6 space-y-4">
+                    <div class="rounded-md shadow-sm flex flex-col justify-center gap-2">
+                        <div>
+                            <p:outputLabel for="change-password" value="New Password"
+                                           styleClass="font-bold text-xl"/>
+                            <p:inputText id="change-password" value="#{adminBean.newPassword}"
+                                         styleClass="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"/>
+                        </div>
+                    </div>
+                    <div>
+                        <p:commandButton value="Save" action="#{adminBean.changePassword}"
                                          update="message userDialog" styleClass="ui-button-info"/>
                     </div>
                 </h:form>
@@ -81,8 +101,7 @@
                                     <h:outputText value="********"/>
                                 </f:facet>
                                 <f:facet name="input">
-                                    <p:inputText value="#{user.password}" style="width:100%"
-                                                 label="Password"/>
+                                    <p:commandButton value="Change password" action="#{adminBean.openChangePassword(user.id)}" update="passwordDialog" process="@this" styleClass="ui-button-secondary"/>
                                 </f:facet>
                             </p:cellEditor>
                         </p:column>
@@ -91,31 +110,33 @@
                             <p:cellEditor>
                                 <f:facet name="output">
                                     <h:outputText value="#{user.admin ? 'Yes' : 'No'}"/>
-								</f:facet>
+                                </f:facet>
                                 <f:facet name="input">
-									<p:selectBooleanCheckbox value="#{user.admin}" itemLabel="Is Admin" styleClass="block w-full"/>
-								</f:facet>
+                                    <p:selectBooleanCheckbox value="#{user.admin}" itemLabel="Is Admin"
+                                                             styleClass="block w-full"/>
+                                </f:facet>
                             </p:cellEditor>
                         </p:column>
 
                         <p:column style="width:6rem">
-                            <p:rowEditor/>
+                            <p:rowEditor styleClass="ui-button-secondary"/>
                         </p:column>
-                        <p:column style="width:3rem">
+                        <p:column style="width:6rem">
                             <p:commandButton icon="pi pi-trash"
                                              styleClass="ui-button-danger"
                                              action="#{adminBean.deleteUser(user.id)}"
                                              update=":form:msgs :form:usersTable">
-								<p:confirm header="Confirmation" message="Do you want to delete this record?"
-										   icon="pi pi-info-circle"/>
-							</p:commandButton>
-							<p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true"
-											 width="350">
-								<p:commandButton value="No" type="button"
-												 styleClass="ui-confirmdialog-no ui-button-flat"/>
-								<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes ui-button-danger"/>
-							</p:confirmDialog>
-						</p:column>
+                                <p:confirm header="Confirmation" message="Do you want to delete this record?"
+                                           icon="pi pi-info-circle"/>
+                            </p:commandButton>
+                            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true"
+                                             width="350">
+                                <p:commandButton value="No" type="button"
+                                                 styleClass="ui-confirmdialog-no ui-button-flat"/>
+                                <p:commandButton value="Yes" type="button"
+                                                 styleClass="ui-confirmdialog-yes ui-button-danger"/>
+                            </p:confirmDialog>
+                        </p:column>
                     </p:dataTable>
 
                 </div>

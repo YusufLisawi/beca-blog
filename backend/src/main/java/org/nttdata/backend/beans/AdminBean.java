@@ -28,6 +28,8 @@ public class AdminBean implements Serializable {
     private User newUser = new User();
     private final AuthServiceImpl authService = new AuthServiceImpl();
     private User loggedUser = null;
+    private User selectedUser;
+    private String newPassword;
 
     public User getLoggedUser() {
         return loggedUser;
@@ -40,6 +42,7 @@ public class AdminBean implements Serializable {
     @PostConstruct
     public void init() {
         userDao = new UserDAOImpl();
+        userList = userDao.listUsers();
     }
 
 	public void addUser() {
@@ -66,9 +69,8 @@ public class AdminBean implements Serializable {
     }
     
     public void onRowEdit(RowEditEvent<User> event) {
-        User editedUser = (User) event.getObject();
-        String hashedPassword = BCrypt.withDefaults().hashToString(12, editedUser.getPassword().toCharArray());
-        editedUser.setPassword(hashedPassword);
+        User editedUser = event.getObject();
+        System.out.println("Edited user: " + editedUser);
         userDao.updateUser(editedUser);
         FacesMessage msg = new FacesMessage("User Edited", "User " + editedUser.getUsername() + " edited successfully");
         FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -78,9 +80,27 @@ public class AdminBean implements Serializable {
 //        FacesMessage msg = new FacesMessage("Edit Cancelled", null);
 //        FacesContext.getCurrentInstance().addMessage(null, msg);
     }
+
+    public void openChangePassword(int id) {
+        selectedUser = userDao.getUserById(id);
+        PrimeFaces.current().executeScript("PF('passwordDialog').show();");
+    }
+
+    public void changePassword() {
+        System.out.println("Selected user: " + selectedUser);
+        String hashedPassword = BCrypt.withDefaults().hashToString(12, newPassword.toCharArray());
+        selectedUser.setPassword(hashedPassword);
+        userDao.updateUser(selectedUser);
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "Password changed successfully");
+        FacesContext.getCurrentInstance().addMessage(null, message);
+        PrimeFaces.current().ajax().update(":form:usersTable");
+        PrimeFaces.current().executeScript("PF('passwordDialog').hide();");
+        selectedUser = new User();
+        newPassword = "";
+    }
     
     public List<User> getUserList() {
-        userList = userDao.listUsers();
+//        userList = userDao.listUsers();
         return userList;
     }
 
@@ -96,4 +116,19 @@ public class AdminBean implements Serializable {
         this.newUser = newUser;
     }
 
+    public User getSelectedUser() {
+        return selectedUser;
+    }
+
+    public void setSelectedUser(User selectedUser) {
+        this.selectedUser = selectedUser;
+    }
+
+    public String getNewPassword() {
+        return newPassword;
+    }
+
+    public void setNewPassword(String newPassword) {
+        this.newPassword = newPassword;
+    }
 }
