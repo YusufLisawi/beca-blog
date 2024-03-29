@@ -45,6 +45,11 @@ public class AdminBean implements Serializable {
         userList = userDao.listUsers();
     }
 
+    public void updateData() {
+        userList = userDao.listUsers();
+        PrimeFaces.current().ajax().update(":form:usersTable");
+    }
+
 	public void addUser() {
         Response res = authService.register(newUser);
         if (res != null && !res.isStatus()) {
@@ -55,22 +60,22 @@ public class AdminBean implements Serializable {
         else if (res != null && res.isStatus()) {
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "User added successfully");
             FacesContext.getCurrentInstance().addMessage(null, message);
-            PrimeFaces.current().ajax().update(":form:usersTable");
             PrimeFaces.current().executeScript("PF('userDialogVar').hide();");
 
         }
         newUser = new User();
+        updateData();
     }
 
     public void deleteUser(int userId) {
         userDao.removeUser(userId);
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "User deleted successfully");
         FacesContext.getCurrentInstance().addMessage(null, message);
+        updateData();
     }
     
     public void onRowEdit(RowEditEvent<User> event) {
         User editedUser = event.getObject();
-        System.out.println("Edited user: " + editedUser);
         userDao.updateUser(editedUser);
         FacesMessage msg = new FacesMessage("User Edited", "User " + editedUser.getUsername() + " edited successfully");
         FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -87,7 +92,6 @@ public class AdminBean implements Serializable {
     }
 
     public void changePassword() {
-        System.out.println("Selected user: " + selectedUser);
         String hashedPassword = BCrypt.withDefaults().hashToString(12, newPassword.toCharArray());
         selectedUser.setPassword(hashedPassword);
         userDao.updateUser(selectedUser);
